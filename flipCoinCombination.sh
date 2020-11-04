@@ -1,69 +1,139 @@
-#!/bin/bash
-declare -A dictCoinDoublet
-echo "Flipping a Coin to obtain Doubleton Value and Percentage"
-head=1
-tail=0
+#!/bin/bash 
 
-function winHead() {
-	percent=`awk "BEGIN {print $(($headwin*100))/$i}"`
-	echo "HH Win Percent is : " $percent
+declare -A dictCointriplet
+
+heads=1
+tails=0
+
+function winHHH() {
+	percent=$((($HHHwin*100)/$i))
+	echo "HHH Win Percent is : " $percent
 }
 
-function winTail() {
-	percent=`awk "BEGIN {print $(($tailwin*100))/$i}"`
-	echo "TT Win Percent is : " $percent
+function winHHT() {
+	percent=$((($HHTwin*100)/$i))
+	echo "HHT Win Percent is : " $percent
 }
 
-function winHeadTail() {
-        percent=`awk "BEGIN {print $(($headtailwin*100))/$i}"`
-        echo "HT Win Percent is : " $percent
+function winHTT() {
+        percent=$((($HTTwin*100)/$i))
+        echo "HTT Win Percent is : " $percent
 }
 
-function winTailHead() {
-        percent=`awk "BEGIN {print $(($tailheadwin*100))/$i}"`
-        echo "TH Win Percent is : " $percent
+function winHTH() {
+        percent=$(( ($HTHwin*100) / $i ))
+        echo "HTH Win Percent is : " $percent
 }
 
-for (( i=0; i<=5; i++ ))
+function winTTT() {
+        percent=$((($TTTwin*100)/$i))
+        echo "TTT Win Percent is : " $percent
+}
+
+function winTTH() {
+        percent=$((($TTHwin*100)/$i))
+        echo "TTH Win Percent is : " $percent
+}
+
+function winTHH() {
+        percent=$((($THHwin*100)/$i))
+        echo "THH Win Percent is : " $percent
+}
+
+function winTHT() {
+        percent=$((($THTwin*100)/$i))
+        echo "THT Win Percent is : " $percent
+}
+
+
+for (( i=0; i<=50; i++ )) 
 do
 	flip=$(( RANDOM % 2 ))
 	flip1=$(( RANDOM % 2 ))
-	if [[ $flip -eq $heads && $flip1 -eq $heads ]]
+	flip2=$(( RANDOM % 2 ))
+	if [[ $flip -eq $heads && $flip1 -eq $heads && $flip2 -eq $heads ]]
 	then
 		val="H"
 		val1="H"
-		echo "Head Win"
-		((headwin++))
-	elif [[ $flip -eq $tails && $flip1 -eq $tails ]]
+		val2="H"
+		echo "HHH Win"
+		((HHHwin++))
+
+	elif [[ $flip -eq $tails && $flip1 -eq $tails && $flip2 -eq $tails ]]
 	then
 		val="T"
 		val1="T"
-		echo "Tail Win"
-		((tailwin++))
-	elif [[ $flip -eq $heads && $flip1 -eq $tails ]]
+		val2="T"
+		echo "TTT Win"
+		((TTTwin++))
+
+	elif [[ $flip -eq $heads && $flip1 -eq $tails && $flip2 -eq $heads ]]
         then
                 val="H"
                 val1="T"
-                echo "Head Win"
-                ((headtailwin++))
-        elif [[ $flip -eq $tails && $flip1 -eq $heads ]]
+		val2="H"
+                echo "HTH Win"
+                ((HTHwin++))
+
+        elif [[ $flip -eq $heads && $flip1 -eq $tails && $flip2 -eq $tails ]]
+        then
+                val="H"
+                val1="T"
+		val2="T"
+                echo "HTT Win"
+                ((HTT++))
+
+	elif [[ $flip -eq $tails && $flip1 -eq $heads && $flip2 -eq $heads ]]
         then
                 val="T"
                 val1="H"
-                echo "Tail Win"
-                ((tailheadwin++))
+                val2="H"
+                echo "THH Win"
+                ((THHwin++))
+
+	elif [[ $flip -eq $tails && $flip1 -eq $tails && $flip2 -eq $heads ]]
+        then
+                val="T"
+                val1="T"
+                val2="H"
+                echo "TTH Win"
+                ((TTHwin++))
+
+	elif [[ $flip -eq $tails && $flip1 -eq $heads && $flip2 -eq $tails ]]
+        then
+                val="T"
+                val1="H"
+                val2="T"
+                echo "THT Win"
+                ((THTwin++))
+
+	elif [[ $flip -eq $heads && $flip1 -eq $heads && $flip2 -eq $tails ]]
+        then
+                val="H"
+                val1="H"
+                val2="T"
+                echo "HHT Win"
+                ((HHTwin++))
+
 	else
 		exit
 	fi
-	dictCoinDoublet["$i"]=$val
+
+
+        dictCoinTriplet["$i"]=$val$val1$val2
+
 
 done
-echo "Flipping Coin Store the Doublet Combination......."
 
-echo ${!dictCoinDoublet[@]}
-echo ${dictCoinDoublet[@]}
+echo "Flipping Coin Store the doublet Combination......."
+echo ${!dictCoinTriplet[@]}
+echo ${dictCoinTriplet[@]}
 
-winHead
-winTail
-winHeadTail
-winTailHead
+winHHH
+winTTT
+winHTH
+winHHT
+winTHH
+winTTH
+winTHT
+winHHT
